@@ -22,17 +22,11 @@
       $("#result-list").html("");
       $.each(results, function(index, val) {
         debugger
-        var html = "<div class='col-md-8 item-show list-group'><div class='pic-box'><a href='"+val.DetailPageURL+"' target='_blank'><img src='"+val.MediumImage.URL+"'></a></div><div class='desc-box'><b><br>"+val.ItemAttributes.Title+"</b><br>by: "+val.ItemAttributes.Author+"<br><p>"
-        var array_links = val.ItemLinks.ItemLink
-        $.each(array_links, function(index, link) {
-          if(index < 6){
-            html +="<a href='"+link.URL+"' target='_blank'>"+link.Description+"</a>, "
-          } else {
-            html +="<a href='"+link.URL+"' target='_blank'>"+link.Description+"</a>"
-          }
-        });
-        html += "</p></div></div>"
-        $("#result-list").append(html)
+        var theTemplateScript = $("#item-template").html();
+        var theTemplate = Handlebars.compile(theTemplateScript);
+        var context = val;
+        var theCompiledHtml = theTemplate(context);
+        $("#result-list").append(theCompiledHtml)
 
       });
     })

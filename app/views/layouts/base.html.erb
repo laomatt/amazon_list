@@ -13,20 +13,22 @@
 <script id="item-template" type="text/x-handlebars-template">
 <div class="col-md-8 item-show list-group">
   <div class="pic-box">
-    <a href="{{}}" target="_blank">
-      <img src="{{}}">
+    <a href="{{DetailPageURL}}" target="_blank">
+      <img src="{{MediumImage.URL}}">
     </a>
   </div>
 
   <div class="desc-box">
-    <b><br>{{}}</b>
-    <br>by: {{Sigal Ehrlich}}<br><p>
+    <b><br>{{ItemAttributes.Title}}</b>
+    <br>by: {{ItemAttributes.Author}}<br><p>
   </div>
+  {{#each ItemLinks.ItemLink}}
+    <a href="{{URL}}" target="_blank">{{Description}}</a>,
+  {{/each}}
 </div>
 </script>
 
 <script id="link-template" type="text/x-handlebars-template">
-  <a href="{{}}" target="_blank">{{}}</a>,
 </script>
 
 <body style="padding:5%;">
