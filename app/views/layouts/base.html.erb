@@ -14,26 +14,28 @@
 <div class="col-md-8 item-show list-group">
   <div class="pic-box">
     <a href="{{DetailPageURL}}" target="_blank">
-      <img src="{{MediumImage.URL}}">
+      <img src="{{LargeImage.URL}}">
     </a>
   </div>
 
   <div class="desc-box">
+  <center>
     <b><br>{{ItemAttributes.Title}}</b>
     <br>by: {{ItemAttributes.Author}}<br><p>
-  </div>
-  <div class="top-links-nav">
-  <a href="#" class="show-links">Show links</a>
-  </div>
-  <div class="links-container">
-    <ul>
-    {{#each ItemLinks.ItemLink}}
-      <li style="list-decoration: none">
-        <a href="{{URL}}" target="_blank">{{Description}}</a>
-      </li>
-    {{/each}}
-    <a href="#" class="hide-these-links"><i class="fa fa-times"></i></a>
-    </ul>
+    <div class="top-links-nav">
+      <a href="#" class="show-links">Show links</a>
+    </div>
+    <div class="links-container">
+      <ul>
+      {{#each ItemLinks.ItemLink}}
+        <li style="list-decoration: none">
+          <a href="{{URL}}" target="_blank">{{Description}}</a>
+        </li>
+      {{/each}}
+      <a href="#" class="hide-these-links"><i class="fa fa-times"></i></a>
+      </ul>
+    </div>
+    </center>
   </div>
 </div>
 </script>
@@ -50,22 +52,23 @@
     list-style: none;
   }
 
-  .top-links-nav {
-    position: absolute;
-    right: 10px;
-    top: 0;
+  .top-links-nav{
+    position: relative;
   }
+
 
   .links-container{
     position: absolute;
-    right: 4%;
+    right: -10%;
+    top: -10%;
     background-color: white;
     padding: 2%;
-    z-index: 10;
+    z-index: 19;
     border-radius: 10px;
     border-style: solid;
     text-align: right;
-    width: 23%;
+    width: 70%;
+    font-size: 15px;
     display: none;
   }
 
