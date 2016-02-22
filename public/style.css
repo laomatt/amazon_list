@@ -12,9 +12,10 @@
     position: relative;
     padding: 2%;
     background-color: #F3F3CE;
-    width: 15%;
+    /*width: 15%;*/
     margin: 10px;
     display: inline-block;
+    overflow: auto;
   }
 
   .result-list {
