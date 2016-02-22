@@ -10,18 +10,35 @@
 </div>
 
 <script>
+  var act = true;
+  function animate_load(addon,active){
+    if(active == true){
+      if(addon != "....."){
+        addon += ".";
+        console.log(addon)
+      } else {
+        addon = ""
+      }
+      $("#result-list").html("Loading" + addon);
+      setTimeout(function(){
+        animate_load(addon,act);
+      }, 500)
+    }
+  }
+
   $("body").on('submit', '#search-bar', function(event) {
     event.preventDefault();
-    $("#result-list").html("Loading");
+    animate_load("",act);
+
     $.ajax({
       url: '/home/search',
       data: $(this).serialize(),
     })
     .done(function(data) {
+      act = false
       var results = data.data.ItemSearchResponse.Items.Item
       $("#result-list").html("");
       $.each(results, function(index, val) {
-        debugger
         var theTemplateScript = $("#item-template").html();
         var theTemplate = Handlebars.compile(theTemplateScript);
         var context = val;

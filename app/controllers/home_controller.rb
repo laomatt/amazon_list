@@ -21,8 +21,6 @@ class HomeController < ApplicationController
         'ResponseGroup' => 'Images, ItemAttributes, OfferFull'
         }
       )
-
-    doc = Nokogiri::XML(query.body)
     render :json =>{:data => Hash.from_xml(query.body)}
   end
 end
