@@ -3,19 +3,6 @@
   <input type="hidden" name="page" value="1">
   <input type="submit" value="search">
 </form>
-
-
-<style>
-  .load-bar {
-    background: #B4F181;
-    color: white;
-    width: 40%;
-    height: 30px;
-    margin: 2px;
-    padding: 2%;
-    position: relative;
-  }
-</style>
 <div class="results">
   <ul id="result-list">
 
@@ -24,17 +11,20 @@
 
 <script>
   var act = true;
-  function animate_load(addon,active){
+  function animate_load(addon,active,counter){
     if(active == true){
-      if(addon != "<div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div>"){
-        addon += "<div class='load-bar'>Loading</div>";
+      if(counter < 9){
+        counter += 1;
+        diff = 10 - counter;
+        addon += "<div class='load-bar' style='opacity:."+diff+"'>Loading</div>";
       } else {
-        addon = ""
+        counter = 0;
+        addon = "";
       }
       $("#result-list").html(addon);
       setTimeout(function(){
-        animate_load(addon,act);
-      }, 50)
+        animate_load(addon,act,counter);
+      }, 50);
     }
   }
 
@@ -69,18 +59,18 @@
     .done(function(data) {
       argArray = data.data.ItemSearchResponse.OperationRequest.Arguments.Argument;
 
-      var nameSpace = {key: arrayIdx(argArray, "Keywords")}
-      act = false
-      var results = data.data.ItemSearchResponse.Items.Item
+      var nameSpace = {key: arrayIdx(argArray, "Keywords")};
+      act = false;
+      var results = data.data.ItemSearchResponse.Items.Item;
       $("#result-list").html("");
       $.each(results, function(index, val) {
         var theTemplateScript = $("#item-template").html();
         var theTemplate = Handlebars.compile(theTemplateScript);
         var context = val;
         var theCompiledHtml = theTemplate(context);
-        $("#result-list").append(theCompiledHtml)
+        $("#result-list").append(theCompiledHtml);
       });
-      $("#result-list").append('<br><nav><ul class="pagination" keywords="'+nameSpace.key+'"><li>1</li><li><a href="#" class="pag-link">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li><a href="'+data.data.ItemSearchResponse.Items.MoreSearchResultsUrl+'" target="_blank">more..</a></li></ul></nav>')
+      $("#result-list").append('<br><nav><ul class="pagination" keywords="'+nameSpace.key+'"><li>1</li><li><a href="#" class="pag-link">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li><a href="'+data.data.ItemSearchResponse.Items.MoreSearchResultsUrl+'" target="_blank">more..</a></li></ul></nav>');
     })
 
   });
@@ -99,87 +89,31 @@
     .done(function(data) {
       argArray = data.data.ItemSearchResponse.OperationRequest.Arguments.Argument;
 
-      var nameSpace = {key: arrayIdx(argArray, "Keywords")}
-      act = false
-      var results = data.data.ItemSearchResponse.Items.Item
+      var nameSpace = {key: arrayIdx(argArray, "Keywords")};
+      act = false;
+      var results = data.data.ItemSearchResponse.Items.Item;
       $("#result-list").html("");
       $.each(results, function(index, val) {
         var theTemplateScript = $("#item-template").html();
         var theTemplate = Handlebars.compile(theTemplateScript);
         var context = val;
         var theCompiledHtml = theTemplate(context);
-        $("#result-list").append(theCompiledHtml)
+        $("#result-list").append(theCompiledHtml);
       });
       var footer_html = ""
-      footer_html += '<br><nav><ul class="pagination" keywords="'+nameSpace.key+'">'
+      footer_html += '<br><nav><ul class="pagination" keywords="'+nameSpace.key+'">';
 
         for(var g = 1; g < 6; g+=1){
           if(numSpace.page == g){
-            footer_html += '<li>'+g+'</li>'
+            footer_html += '<li>'+g+'</li>';
           } else {
-            footer_html += '<li><a href="#" class="pag-link">'+g+'</a></li>'
+            footer_html += '<li><a href="#" class="pag-link">'+g+'</a></li>';
           }
         }
 
-        footer_html += '<li><a href="'+data.data.ItemSearchResponse.Items.MoreSearchResultsUrl+'" target="_blank">more..</a></li></ul></nav>'
+        footer_html += '<li><a href="'+data.data.ItemSearchResponse.Items.MoreSearchResultsUrl+'" target="_blank">more..</a></li></ul></nav>';
 
         $("#result-list").append(footer_html);
     })
   });
 </script>
-
-
-<style>
-  .item-show {
-    position: relative;
-    padding: 2%;
-    background-color: #F3F3CE;
-    width: 15%;
-    margin: 10px;
-    display: inline-block;
-  }
-
-  .result-list {
-    position: relative;
-    width: 70%;
-  }
-
-  .pic-box {
-    position: relative;
-    float: left;
-    width: 100%;
-  }
-
-  .pic-box img {
-    max-height: 200px;
-    overflow: hidden;
-  }
-
-  .desc-box {
-    position: absolute;
-    background-color: white;
-    display: none;
-    width: 100%;
-    height: 100%;
-    top: 0%;
-    left: 0%;
-    text-align: left;
-  }
-
-  .pagination li {
-    display: inline;
-    padding: 1%;
-    background-color: #BFBFD0;
-    margin: 8px;
-  }
-
-  .pagination li a{
-    color: white;
-    text-decoration: none;
-  }
-
-  nav {
-    margin-top: 2%;
-  }
-
-</style>
