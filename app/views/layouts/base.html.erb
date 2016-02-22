@@ -22,20 +22,71 @@
     <b><br>{{ItemAttributes.Title}}</b>
     <br>by: {{ItemAttributes.Author}}<br><p>
   </div>
-  {{#each ItemLinks.ItemLink}}
-    <a href="{{URL}}" target="_blank">{{Description}}</a>,
-  {{/each}}
+  <div class="top-links-nav">
+  <a href="#" class="show-links">Show links</a>
+  </div>
+  <div class="links-container">
+    <ul>
+    {{#each ItemLinks.ItemLink}}
+      <li style="list-decoration: none">
+        <a href="{{URL}}" target="_blank">{{Description}}</a>
+      </li>
+    {{/each}}
+    <a href="#" class="hide-these-links"><i class="fa fa-times"></i></a>
+    </ul>
+  </div>
 </div>
 </script>
 
-<script id="link-template" type="text/x-handlebars-template">
-</script>
-
 <body style="padding:5%;">
-
-
 
 <%= yield %>
 
 </body>
 </center>
+
+<style>
+  li {
+    list-style: none;
+  }
+
+  .top-links-nav {
+    position: absolute;
+    right: 10px;
+    top: 0;
+  }
+
+  .links-container{
+    position: absolute;
+    right: 4%;
+    background-color: white;
+    padding: 2%;
+    z-index: 10;
+    border-radius: 10px;
+    border-style: solid;
+    text-align: right;
+    width: 23%;
+    display: none;
+  }
+
+  .hide-these-links {
+    position: absolute;
+    left: 5%;
+    bottom: 5%;
+  }
+</style>
+
+<script>
+  $("body").on('click', '.show-links', function(event) {
+    event.preventDefault();
+    $(this).parent().parent().find('.desc-box').css('opacity','.5');
+    $(this).parent().parent().find('.links-container').slideDown('500', function() {
+    });
+  });
+
+  $("body").on('click', '.hide-these-links', function(event) {
+    event.preventDefault();
+    $(this).parent().parent().slideUp(500);
+    $(this).parent().parent().parent().find('.desc-box').css('opacity',1);
+  });
+</script>
