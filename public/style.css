@@ -67,15 +67,15 @@
 
   .links-container{
     position: absolute;
-    right: -10%;
-    top: -10%;
+    right: 0%;
+    top: 0%;
     background-color: white;
     padding: 2%;
-    z-index: 19;
+    z-index: 49;
     border-radius: 10px;
     border-style: solid;
     text-align: right;
-    width: 70%;
+    width: 90%;
     font-size: 15px;
     display: none;
   }
