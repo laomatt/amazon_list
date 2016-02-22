@@ -4,6 +4,18 @@
   <input type="submit" value="search">
 </form>
 
+
+<style>
+  .load-bar {
+    background: #B4F181;
+    color: white;
+    width: 100%;
+    height: 30px;
+    margin: 2px;
+    padding: 2%;
+    position: relative;
+  }
+</style>
 <div class="results">
   <ul id="result-list">
 
@@ -14,15 +26,15 @@
   var act = true;
   function animate_load(addon,active){
     if(active == true){
-      if(addon != "....."){
-        addon += ".";
+      if(addon != "<div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div><div class='load-bar'>Loading</div>"){
+        addon += "<div class='load-bar'>Loading</div>";
       } else {
         addon = ""
       }
-      $("#result-list").html("Loading" + addon);
+      $("#result-list").html(addon);
       setTimeout(function(){
         animate_load(addon,act);
-      }, 500)
+      }, 50)
     }
   }
 
@@ -36,6 +48,7 @@
 
   $("body").on('submit', '#search-bar', function(event) {
     event.preventDefault();
+    act = true;
     animate_load("",act);
 
     $.ajax({
