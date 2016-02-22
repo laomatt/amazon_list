@@ -5,19 +5,15 @@ class HomeController < ApplicationController
   end
 
   def search
-    words = params[:search][:keywords]
-    if params[:page]
-      page = params[:page]
-    else
-      page = "1"
-    end
+    words = params[:keywords]
+    page = params[:page]
 
     index = 'Books'
     query = @request.item_search(
       query: {
         'SearchIndex' => index,
         'Keywords' => words,
-        'ItemPage' => '1',
+        'ItemPage' => page,
         'ResponseGroup' => 'Images, ItemAttributes, OfferFull'
         }
       )
