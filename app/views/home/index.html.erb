@@ -52,11 +52,13 @@
     act = true;
     animate_load("",act);
 
+    var numSpace = {page:$(this).text()};
     $.ajax({
       url: '/home/search',
       data: $(this).serialize(),
     })
     .done(function(data) {
+      var TotalPages = data.data.ItemSearchResponse.Items.TotalPages;
       argArray = data.data.ItemSearchResponse.OperationRequest.Arguments.Argument;
 
       var nameSpace = {key: arrayIdx(argArray, "Keywords")};
@@ -70,7 +72,23 @@
         var theCompiledHtml = theTemplate(context);
         $("#result-list").append(theCompiledHtml);
       });
-      $("#result-list").append('<br><nav><ul class="pagination" keywords="'+nameSpace.key+'"><li style="background-color:#F3F3CE"><b>1</b></li><li><a href="#" class="pag-link">2</a></li><li><a href="#" class="pag-link">3</a></li><li><a href="#" class="pag-link">4</a></li><li><a href="#" class="pag-link">5</a></li><li><a href="'+data.data.ItemSearchResponse.Items.MoreSearchResultsUrl+'" target="_blank">more..</a></li></ul></nav>');
+      var footer_html = ""
+      footer_html += '<br><nav><ul class="pagination" keywords="'+nameSpace.key+'">';
+      var limit = 6;
+      if(TotalPages < 7){
+        limit = TotalPages;
+      }
+      for(var g = 1; g <= limit; g+=1){
+        if(g == 1){
+          footer_html += '<li style="background-color:#F3F3CE"><b>'+g+'</b></li>';
+        } else {
+          footer_html += '<li><a href="#" class="pag-link">'+g+'</a></li>';
+        }
+      }
+
+      footer_html += '<li><a href="'+data.data.ItemSearchResponse.Items.MoreSearchResultsUrl+'" target="_blank">more..</a></li></ul></nav>';
+
+      $("#result-list").append(footer_html);
     })
 
   });
@@ -88,7 +106,7 @@
     })
     .done(function(data) {
       argArray = data.data.ItemSearchResponse.OperationRequest.Arguments.Argument;
-
+      var TotalPages = data.data.ItemSearchResponse.Items.TotalPages;
       var nameSpace = {key: arrayIdx(argArray, "Keywords")};
       act = false;
       var results = data.data.ItemSearchResponse.Items.Item;
@@ -102,18 +120,21 @@
       });
       var footer_html = ""
       footer_html += '<br><nav><ul class="pagination" keywords="'+nameSpace.key+'">';
-
-        for(var g = 1; g < 6; g+=1){
-          if(numSpace.page == g){
-            footer_html += '<li style="background-color:#F3F3CE"><b>'+g+'</b></li>';
-          } else {
-            footer_html += '<li><a href="#" class="pag-link">'+g+'</a></li>';
-          }
+      var limit = 6;
+      if(TotalPages < 7){
+        limit = TotalPages;
+      }
+      for(var g = 1; g <= limit; g+=1){
+        if(numSpace.page == g){
+          footer_html += '<li style="background-color:#F3F3CE"><b>'+g+'</b></li>';
+        } else {
+          footer_html += '<li><a href="#" class="pag-link">'+g+'</a></li>';
         }
+      }
 
-        footer_html += '<li><a href="'+data.data.ItemSearchResponse.Items.MoreSearchResultsUrl+'" target="_blank">more..</a></li></ul></nav>';
+      footer_html += '<li><a href="'+data.data.ItemSearchResponse.Items.MoreSearchResultsUrl+'" target="_blank">more..</a></li></ul></nav>';
 
-        $("#result-list").append(footer_html);
+      $("#result-list").append(footer_html);
     })
   });
 </script>
