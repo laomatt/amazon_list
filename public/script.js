@@ -33,7 +33,6 @@
 
 
   $("body").on('submit', '#search-bar', function(event) {
-    debugger
     event.preventDefault();
     act = true;
     animate_load("",act);
